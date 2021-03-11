@@ -20,7 +20,7 @@ void sqlConnPool::init(const char* host, int port,
         MYSQL *sql = nullptr;
         sql = mysql_init(sql);
         if (!sql) {
-            // LOG_ERROR("MySql init error!"); 
+            LOG_ERROR("MySql init error!"); 
             assert(sql);
         }
         sql = mysql_real_connect(sql, host,
@@ -28,7 +28,7 @@ void sqlConnPool::init(const char* host, int port,
                                  dbName, port, 
                                  nullptr, 0);
         if (!sql) {
-            // LOG_ERROR("MySql Connect error!"); 
+            LOG_ERROR("MySql Connect error!"); 
         }
         __connQue.push(sql);
     }
@@ -39,7 +39,7 @@ void sqlConnPool::init(const char* host, int port,
 MYSQL* sqlConnPool::getConn() {
     MYSQL *sql = nullptr;
     if(__connQue.empty()){
-        // LOG_WARN("SqlConnPool busy!"); 
+        LOG_WARN("SqlConnPool busy!"); 
         return nullptr;
     }
     sem_wait(&__semId);

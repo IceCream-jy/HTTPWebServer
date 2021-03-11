@@ -38,13 +38,13 @@ public:
 
     T back();
 
-    void push_back(const T &item);
+    void push_back(const T& item);
 
-    void push_front(const T &item);
+    void push_front(const T& item);
 
-    bool pop(T &item);
+    bool pop(T& item);
 
-    bool pop(T &item, int timeout);
+    bool pop(T& item, int timeout);
 
     void flush();
 

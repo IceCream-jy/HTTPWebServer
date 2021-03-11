@@ -4,6 +4,9 @@
 #include <deque>
 #include <mutex>
 #include <thread>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <stdarg.h>
 
 #include "blockqueue.hh"
 #include "../buffer/buffer.hh"
@@ -25,9 +28,9 @@ public:
     bool isOpen() { return __isOpen; }
 private:
     log();
-    void appendLogLevelTitle_(int level);
+    void __appendLogLevelTitle(int level);
     virtual ~log();
-    void asyncWrite_();
+    void __asyncWrite();                        // 将 __deque 中所有字符串写入 __fp
 
 private:
     static const int LOG_PATH_LEN = 256;
@@ -35,7 +38,7 @@ private:
     static const int MAX_LINES = 50000;
 
     const char* __path;     // 路径
-    const char* __suffix;
+    const char* __suffix;   // 后缀
 
     int __MAX_LINES;
 
@@ -53,5 +56,20 @@ private:
     std::unique_ptr<std::thread> __writeThread;     // 指向写日志线程
     std::mutex __mtx;
 };
+
+#define LOG_BASE(level, format, ...) \
+    do {\
+        log* m_log = log::instance();\
+        if (m_log->isOpen() && m_log->getLevel() <= level) {\
+            m_log->write(level, format, ##__VA_ARGS__); \
+            m_log->flush();\
+        }\
+    } while(0);
+
+#define LOG_DEBUG(format, ...) do {LOG_BASE(0, format, ##__VA_ARGS__)} while(0);
+#define LOG_INFO(format, ...) do {LOG_BASE(1, format, ##__VA_ARGS__)} while(0);
+#define LOG_WARN(format, ...) do {LOG_BASE(2, format, ##__VA_ARGS__)} while(0);
+#define LOG_ERROR(format, ...) do {LOG_BASE(3, format, ##__VA_ARGS__)} while(0);
+
 
 #endif
