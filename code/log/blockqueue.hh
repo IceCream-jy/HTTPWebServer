@@ -12,6 +12,7 @@ ret blockQue<T>::
 
 template <class T>
 class blockQue{
+public:
     explicit blockQue(size_t maxCapacity = 1000){
         assert(maxCapacity > 0);
         __isClose = false;

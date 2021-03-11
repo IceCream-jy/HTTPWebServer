@@ -1,4 +1,4 @@
-#include "sqlconnpool.h"
+#include "sqlconnpool.hh"
 
 sqlConnPool::sqlConnPool(){
     __useCount = __freeCount = 0;

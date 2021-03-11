@@ -1,6 +1,6 @@
 #ifndef SQLCONNRAII_H
 #define SQLCONNRAII_H
-#include "sqlconnpool.h"
+#include "sqlconnpool.hh"
 
 /* 资源在对象构造初始化 资源在对象析构时释放*/
 class SqlConnRAII {
