@@ -17,8 +17,8 @@ public:
     size_t writableBytes() const;       // 可写字节数  
     size_t readableBytes() const ;      // 可读字节数
     size_t prependableBytes() const;    // 前置字节数，即已读字节数
-
-    const char* peek() const;           // 返回读字符串位置
+    // 返回读字符串位置
+    const char* peek() const;           
     void ensureWriteable(size_t len);   // 保证有 len 长度的可写距离
     void hasWritten(size_t len);        // 将 __writePos 向后移动 len 长度
 

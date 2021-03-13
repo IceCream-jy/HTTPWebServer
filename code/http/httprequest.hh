@@ -15,6 +15,7 @@
 
 class HttpRequest {
 public:
+    /* 主状态机 */
     enum PARSE_STATE {
         REQUEST_LINE,
         HEADERS,
@@ -33,12 +34,14 @@ public:
         CLOSED_CONNECTION,
     };
     
-    HttpRequest() { init(); }
+    HttpRequest() { Init(); }
     ~HttpRequest() = default;
-
-    void init();
+    /* 初始化，变量全部清空，状态置为 REQUEST_LINE */
+    void Init();                
+    /* 对 buff 进行解析，直到读完 buff 或状态为 FINISH */
     bool parse(buffer& buff);
 
+    /* 返回相应内部变量 */
     std::string path() const;
     std::string& path();
     std::string method() const;
@@ -55,6 +58,7 @@ public:
     */
 
 private:
+    /* 解析相应报头 */
     bool ParseRequestLine_(const std::string& line);
     void ParseHeader_(const std::string& line);
     void ParseBody_(const std::string& line);
@@ -62,12 +66,12 @@ private:
     void ParsePath_();
     void ParsePost_();
     void ParseFromUrlencoded_();
-
+    /* 用户登录或注册 */
     static bool UserVerify(const std::string& name, const std::string& pwd, bool isLogin);
 
-    PARSE_STATE state_;
+    PARSE_STATE state_;     // 主状态机状态
     std::string method_, path_, version_, body_;
-    std::unordered_map<std::string, std::string> header_;
+    std::unordered_map<std::string, std::string> header_;   // 保存头文件信息
     std::unordered_map<std::string, std::string> post_;
 
     static const std::unordered_set<std::string> DEFAULT_HTML;
