@@ -33,18 +33,19 @@ public:
     void adjust(int id, int newExpires);
 
     void add(int id, int timeOut, const TimeoutCallBack& cb);
-
+    // 删除指定 id 节点，并触发回调函数
     void doWork(int id);
 
     void clear();
-
+    // 清除超时节点
     void tick();
 
     void pop();
-
+    // tick，并返回下一节点 expire 的时间距离
     int GetNextTick();
 
 private:
+    // 删除指定位置节点
     void del_(size_t i);
     
     void siftup_(size_t i);
