@@ -1,4 +1,6 @@
 #include "httprequest.hh"
+#include <stdio.h>
+
 using namespace std;
 
 const unordered_set<string> HttpRequest::DEFAULT_HTML{
@@ -23,6 +25,9 @@ bool HttpRequest::IsKeepAlive() const {
 }
 
 bool HttpRequest::parse(buffer& buff) {
+    printf("parse");
+    fflush(stdout);
+    LOG_INFO("********** parse ********");
     const char CRLF[] = "\r\n";
     if(buff.readableBytes() <= 0) {
         return false;
@@ -72,6 +77,8 @@ void HttpRequest::ParsePath_() {
 }
 
 bool HttpRequest::ParseRequestLine_(const string& line) {
+    printf("%s", line.data());
+    fflush(stdout);
     regex patten("^([^ ]*) ([^ ]*) HTTP/([^ ]*)$");  // 匹配类似 GET /fasdfsdf.jpg HTTP/1.1
     smatch subMatch;
     if(regex_match(line, subMatch, patten)) {       // smatch[0] 匹配整个字符串，然后依次匹配每个括号
@@ -130,7 +137,7 @@ void HttpRequest::ParsePost_() {
 
 void HttpRequest::ParseFromUrlencoded_() {
     if(body_.size() == 0) { return; }
-
+    LOG_INFO("********** %s ********", body_.data());
     string key, value;
     int num = 0;
     int n = body_.size();
@@ -140,19 +147,31 @@ void HttpRequest::ParseFromUrlencoded_() {
         char ch = body_[i];
         switch (ch) {
         case '=':
+            // printf(" = ");
+            // fflush(stdout);
+            LOG_INFO("********** = ********");
             key = body_.substr(j, i - j);
             j = i + 1;
             break;
         case '+':
+            // printf(" + ");
+            // fflush(stdout);
+            LOG_INFO("********** + ********");
             body_[i] = ' ';
             break;
         case '%':
+            // printf(" %% ");
+            // fflush(stdout);
+            LOG_INFO("********** %% ********");
             num = ConverHex(body_[i + 1]) * 16 + ConverHex(body_[i + 2]);
             body_[i + 2] = num % 10 + '0';
             body_[i + 1] = num / 10 + '0';
             i += 2;
             break;
         case '&':
+            // printf(" & ");
+            // fflush(stdout);
+            LOG_INFO("********** & ********");
             value = body_.substr(j, i - j);
             j = i + 1;
             post_[key] = value;
