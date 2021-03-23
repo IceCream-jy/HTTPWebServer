@@ -92,9 +92,9 @@ ssize_t HttpConn::write(int* saveErrno) {
 }
 
 bool HttpConn::process() {
-    printf(" process ");
-    fflush(stdout);
-    LOG_INFO("**********process********");
+    // printf(" process ");
+    // fflush(stdout);
+    // LOG_INFO("**********process********");
     request_.Init();
     if(readBuff_.readableBytes() <= 0) {
         return false;

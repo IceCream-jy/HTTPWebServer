@@ -25,9 +25,9 @@ bool HttpRequest::IsKeepAlive() const {
 }
 
 bool HttpRequest::parse(buffer& buff) {
-    printf("parse");
-    fflush(stdout);
-    LOG_INFO("********** parse ********");
+    // printf("parse");
+    // fflush(stdout);
+    // LOG_INFO("********** parse ********");
     const char CRLF[] = "\r\n";
     if(buff.readableBytes() <= 0) {
         return false;
@@ -77,8 +77,8 @@ void HttpRequest::ParsePath_() {
 }
 
 bool HttpRequest::ParseRequestLine_(const string& line) {
-    printf("%s", line.data());
-    fflush(stdout);
+    // printf("%s", line.data());
+    // fflush(stdout);
     regex patten("^([^ ]*) ([^ ]*) HTTP/([^ ]*)$");  // 匹配类似 GET /fasdfsdf.jpg HTTP/1.1
     smatch subMatch;
     if(regex_match(line, subMatch, patten)) {       // smatch[0] 匹配整个字符串，然后依次匹配每个括号
