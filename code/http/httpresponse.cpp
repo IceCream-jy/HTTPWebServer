@@ -168,7 +168,7 @@ void HttpResponse::ErrorContent(buffer& buff, string message)
     }
     body += to_string(code_) + " : " + status  + "\n";
     body += "<p>" + message + "</p>";
-    body += "<hr><em>TinyWebServer</em></body></html>";
+    body += "<hr><em>HTTPServer</em></body></html>";
 
     buff.append("Content-length: " + to_string(body.size()) + "\r\n\r\n");
     buff.append(body);
