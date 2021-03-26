@@ -31,6 +31,12 @@ public:
 
 private:
     bool InitSocket_(); 
+    /*
+    默认监听事件与连接事件都为 ET 模式（3）
+    连接事件 ET，监听事件 LT（1）
+    连接事件 LT，监听事件 LT（0）
+    连接事件 LT，监听事件 ET（2）
+    */
     void InitEventMode_(int trigMode);
     void AddClient_(int fd, sockaddr_in addr);
   

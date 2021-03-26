@@ -29,7 +29,7 @@ public:
     HeapTimer() { heap_.reserve(64); }
 
     ~HeapTimer() { clear(); }
-    
+    // 调整指定 id 的结点，expires = now() + newExpires
     void adjust(int id, int newExpires);
 
     void add(int id, int timeOut, const TimeoutCallBack& cb);
@@ -47,7 +47,7 @@ public:
 private:
     // 删除指定位置节点
     void del_(size_t i);
-    
+    // 对第 i 个节点执行 sift_up
     void siftup_(size_t i);
 
     bool siftdown_(size_t index, size_t n);
@@ -55,7 +55,7 @@ private:
     void SwapNode_(size_t i, size_t j);
 
     std::vector<TimerNode> heap_;
-
+    // 保存 id 的个数
     std::unordered_map<int, size_t> ref_;
 };
 

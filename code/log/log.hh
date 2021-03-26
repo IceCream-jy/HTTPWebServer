@@ -13,6 +13,7 @@
 
 class log{
 public:
+    // 初始化内部成员，初始化事件，初始化日志文件（创建、命名），对于异步写创建异步写线程
     void init(int level, const char* path = "./log", 
                 const char* suffix =".log",
                 int maxQueueCapacity = 1024);
@@ -30,7 +31,8 @@ private:
     log();
     void __appendLogLevelTitle(int level);
     virtual ~log();
-    void __asyncWrite();                        // 将 __deque 中所有字符串写入 __fp
+    // 将 __deque 中所有字符串写入 __fp（异步写线程调用）
+    void __asyncWrite();                 
 
 private:
     static const int LOG_PATH_LEN = 256;
