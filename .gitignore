@@ -45,7 +45,7 @@
 *.log
 *.exe
 /.vscode
-/resources
+# /resources
 /bin
 /log
 /HTTPServer.md
