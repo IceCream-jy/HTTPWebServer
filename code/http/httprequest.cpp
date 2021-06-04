@@ -99,6 +99,9 @@ void HttpRequest::ParseHeader_(const string& line) {
         header_[subMatch[1]] = subMatch[2];
     }
     else {
+        // string tst(buff.peek(), buff.beginWriteConst() - buff.peek());
+        // printf("***:%d%s:***\n", int(buff.beginWriteConst() - buff.peek()), tst.data());
+        // printf("***:%d%s:***\n", int(line.size()), line.data());
         state_ = BODY;
     }
 }
@@ -137,7 +140,7 @@ void HttpRequest::ParsePost_() {
 
 void HttpRequest::ParseFromUrlencoded_() {
     if(body_.size() == 0) { return; }
-    LOG_INFO("********** %s ********", body_.data());
+    // LOG_INFO("********** %s ********", body_.data());
     string key, value;
     int num = 0;
     int n = body_.size();
@@ -149,20 +152,20 @@ void HttpRequest::ParseFromUrlencoded_() {
         case '=':
             // printf(" = ");
             // fflush(stdout);
-            LOG_INFO("********** = ********");
+            // LOG_INFO("********** = ********");
             key = body_.substr(j, i - j);
             j = i + 1;
             break;
         case '+':
             // printf(" + ");
             // fflush(stdout);
-            LOG_INFO("********** + ********");
+            // LOG_INFO("********** + ********");
             body_[i] = ' ';
             break;
         case '%':
             // printf(" %% ");
             // fflush(stdout);
-            LOG_INFO("********** %% ********");
+            // LOG_INFO("********** %% ********");
             num = ConverHex(body_[i + 1]) * 16 + ConverHex(body_[i + 2]);
             body_[i + 2] = num % 10 + '0';
             body_[i + 1] = num / 10 + '0';
@@ -171,7 +174,7 @@ void HttpRequest::ParseFromUrlencoded_() {
         case '&':
             // printf(" & ");
             // fflush(stdout);
-            LOG_INFO("********** & ********");
+            // LOG_INFO("********** & ********");
             value = body_.substr(j, i - j);
             j = i + 1;
             post_[key] = value;
